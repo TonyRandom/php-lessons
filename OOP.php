@@ -257,6 +257,7 @@ class Chocolate extends Products
         parent::__construct($name, $price, $weight, $border, $background);
     }
 
+
     public function printArticle()
     {
         echo "<div style='border: {$this->border}; background: {$this->background};'> 
@@ -267,10 +268,13 @@ class Chocolate extends Products
         ";
     }
 
+
+
     public function showImage() {
         echo "<div style='background-image: url({$this->image}); background-size: cover; width: 200px; height: 200px;'></div>
  </div>";
     }
+    
 }
 
 
@@ -380,13 +384,118 @@ interface iTest
     public function getTest();
 }
 
-class User implements iPrint, iTest
-{
-    public function printSmth()
-    {
-        echo 1234567;
-    }
-    public function getTest() {
+//class User implements iPrint, iTest
+//{
+//    public function printSmth()
+//    {
+//        echo 1234567;
+//    }
+//    public function getTest() {
+//
+//    }
+//}
 
+
+
+//HOMEWORK OOP3
+
+class Product
+{
+    public static $companyName = 'My company';
+    const YEAR_START = 1991;
+
+    public static function showCompanyInfo () {
+        echo self::$companyName . "<br>";
+        echo Product::YEAR_START . "<br>";
+    }
+
+    public static function setCompanyName($name) {
+        self::$companyName = $name;
     }
 }
+$test3 = new Product();
+$test3->showCompanyInfo();
+$test3->setCompanyName('Antoha');
+$test3->showCompanyInfo();
+
+
+
+// TRAIT
+
+trait myGreetings
+{
+    public function sayHello()
+    {echo "Hello";}
+
+    public function sayChao ()
+    {
+        echo "Chao!";
+    }
+}
+
+class Person
+{
+    use myGreetings;
+}
+
+$person = new Person();
+$person->sayHello();
+
+
+
+
+
+
+
+
+interface EngineInterface
+{
+public function engineOn();
+
+public function engineOff();
+}
+
+class Engine implements EngineInterface
+{
+    public function engineOn ()
+    {
+        echo 'Engine is started';
+    }
+
+    public function engineOff ()
+    {
+        echo 'Engine is off';
+    }
+}
+
+class Car
+{
+    public $color;
+    public $engine;
+
+    public function __construct($color, EngineInterface $engine)
+    {
+        $this->color=$color;
+        if ($engine instanceof Engine){
+            $this->engine=$engine;
+        } else {
+            die('Машина ожидает мотор!');
+        }
+
+    }
+
+    public function startEngine () {
+        $this->engine->engineOn();
+    }
+
+    public function turnOffEngine () {
+        $this->engine->engineOff();
+    }
+}
+
+
+
+$engine1 = new Engine();
+$car1 = new Car('red', $engine1);
+
+$car1->turnOffEngine();
